@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>index</title>
+</head>
+<body>
+	<h2>打开控制台F12->console->输入测试代码</h2>
+	<p>
+		<code>
+			var app1 = new Observer({name: 'youngwind', age: 25});
+		</code>
+	</p>
+	<p>
+		<code>
+			app1.data.name;
+		</code>
+	</p>
+	<p>
+		<code>
+			app1.data.age = 100;
+		</code>
+	</p>
+	<script>
+	function Observer(data){
+		this.data  = data;
+		this.watch(data);
+	}
+	//原型添加绑定方法
+
+	Observer.prototype.watch=function(obj){
+		var i,cache ;
+
+		for(i in obj){
+			if(obj.hasOwnProperty(i)){
+				cache = obj[i];
+				if(typeof cache ==='object'){
+					new Observer(cache);
+				}
+				this.convert(i,cache);
+			}
+		}
+		i=null;
+	}
+	Observer.prototype.convert = function(key,val){
+		Object.defineProperty(this.data,key,{
+		           enumerable: true,//可枚举
+		           configurable: true,//可修改
+			get:function(){
+				console.log('你访问了'+key);
+				return val;
+			},
+			set:function(vals){
+				console.log('你设置了'+key+'新的值为'+vals);
+				if(key!==val){
+					val = vals;
+				}
+			}
+		});
+	}
+
+	</script>
+</body>
+</html>

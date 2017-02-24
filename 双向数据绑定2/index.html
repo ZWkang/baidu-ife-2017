@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>index</title>
+</head>
+<body>
+	<h2>打开控制台F12->console->输入测试代码</h2>
+	<p>
+		<code>
+			var app1 = new Observer({
+				         name: 'youngwind',
+				         age: 25
+				 });
+		</code>
+	</p>
+	<p>
+		<code>
+			app1.data.name = {
+			         lastName: 'liang',
+			         firstName: 'shaofeng'
+			 };
+		</code>
+	</p>
+	<p>
+		<code>
+			app1.data.name.lastName;
+			
+			app1.data.name.firstName = 'lalala';
+		</code>
+	</p>
+	<p>
+		<code>
+			app1 = new Observer({
+			         name: 'youngwind',
+			         age: 25
+			 });
+			<br>
+			
+			 app1.$watch('age', function(age) {
+			         console.log(`我的年纪变了，现在已经是：${age}岁了`)
+			 });
+			<br>
+			 app1.data.age = 100;
+		</code>
+	</p>
+	<script>
+
+	function Observer(data){
+		this.data  = data;
+		this.watch(data);
+	}
+	//原型添加绑定方法
+	Observer.prototype.watch=function(obj){
+		var i,cache ;
+
+		for(i in obj){
+			if(obj.hasOwnProperty(i)){
+				cache = obj[i];
+				if(typeof cache ==='object'){
+					new Observer(cache);
+					//这里为了初始化传多层嵌套对象的绑定
+				}
+				this.convert(i,cache);
+			}
+		}
+		i=null;
+	}
+	Observer.prototype.convert = function(key,val,callback){//第三个参数callback不传参的时候默认是undefined形参存在而并未赋值
+
+		Object.defineProperty(this.data,key,{
+		           enumerable: true,//可枚举
+		           configurable: true,//可修改
+			get:function(){
+				console.log('你访问了'+key);
+				return val;
+			},
+			set:function(vals){
+				if(typeof callback!=='function'){
+					console.log('你设置了'+key+'新的值为'+vals);
+				}else{
+					callback(vals);
+				}
+				
+				
+				if(key!==val){
+					val = vals;
+				}
+				if(typeof vals ==='object'){
+					new Observer(vals);
+					//这里是为了二次赋值的时候做的绑定
+				}
+			}
+
+		});
+	};
+	Observer.prototype.$watch=function(key,callback){
+		this.convert(key,this.data.key,callback);
+	}
+
+	</script>
+</body>
+</html>
