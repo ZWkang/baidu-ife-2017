@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>index</title>
+</head>
+<body>
+	<h2>打开控制台F12->console->输入测试代码</h2>
+	<p>
+		<code>
+			var app2 = new Observer({
+			    name: {
+			        firstName: 'shaofeng',
+			        lastName: 'liang'
+			    },
+			    age: 25
+			});
+		</code>
+	</p>
+	<p>
+		<code>
+			app2.$watch('name', function (newName) {
+			    console.log('我的姓名发生了变化，可能是姓氏变了，也可能是名字变了。')
+			});
+		</code>
+	</p>
+	<p>
+		<code>
+			app2.data.name.firstName = 'hahaha';
+		</code>
+	</p>
+	<p>
+		<code>
+			app2.data.name.lastName = 'blablabla';
+		</code>
+	</p>
+
+	<script>
+
+	function Observer(data,callback){
+		if(typeof callback==='undefined'||typeof callback==='function'){
+			this.data  = data;
+			this.watch(data,callback);
+		}else{
+			throw new Error('有错误的参数');
+		}
+
+	}
+	//原型添加绑定方法
+	Observer.prototype.watch=function(obj,callback){
+		var i,cache ;
+
+		for(i in obj){
+			if(obj.hasOwnProperty(i)){
+				cache = obj[i];
+				if(typeof cache ==='object'){
+					new Observer(cache,callback);
+					//这里为了初始化传多层嵌套对象的绑定
+				}
+				this.convert(i,cache,callback);
+			}
+		}
+		i=null;
+	}
+	Observer.prototype.convert = function(key,val,callback){//第三个参数callback不传参的时候默认是undefined形参存在而并未赋值
+
+		Object.defineProperty(this.data,key,{
+		           enumerable: true,//可枚举
+		           configurable: true,//可修改
+			get:function(){
+				console.log('你访问了'+key);
+				return val;
+			},
+			set:function(vals){
+				if(typeof callback!=='function'){
+					console.log('你设置了'+key+'新的值为'+vals);
+				}else{
+					callback(vals);
+				}
+				
+				
+				if(key!==val){
+					val = vals;
+				}
+				if(typeof vals ==='object'){
+					new Observer(vals,callback);
+					//这里是为了二次赋值的时候做的绑定
+				}
+			}
+
+		});
+	};
+	Observer.prototype.$watch=function(key,callback){
+		
+		if(typeof this.data[key] ==='object'){
+			new Observer(this.data[key],callback);
+		}else{
+
+			this.convert(key,this.data[key],callback);
+		}
+	}
+	//由于步骤二我自己的做法，我想直接在observer上挂载一个回调函数
+	//粗暴的就可以进行下发绑定
+
+	</script>
+</body>
+</html>
