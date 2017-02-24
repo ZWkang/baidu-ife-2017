@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>spritepng radio and checkbox</title>
+	<style>
+
+	 label{
+		display: inline-block;
+		cursor: pointer;
+		position: relative;
+		padding-left: 25px;
+		margin-left: 10px;
+		margin-top: 25px;
+	}
+	 input[type='radio'], input[type="checkbox"]{
+		display:none; 
+
+	}
+	 label:before{
+		content: "";
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		background-image: url(sprite.png);
+		background-repeat: no-repeat;
+		width: 16px;
+		height: 16px;
+	}
+	 input[type='radio'] + label:before{
+
+		background-position: 100% 0%;
+
+	}
+	 input[type='checkbox'] + label:before{
+		background-position: 0% 0%;
+		box-shadow: 1px 1px #ddd;
+	}
+
+	 input[type='radio']:checked+label:before{
+		background-position: 100% 100%;
+	}
+
+	 input[type='checkbox']:checked+label:before{
+		background-position: 0% 100%;
+		box-shadow: 1px 1px red;
+	}
+
+
+	</style>
+</head>
+<body>
+	
+	<input type="radio" id="radio1" name="radios"><label for="radio1" ></label>
+	<input type="radio" checked="checked" id="radio2" name="radios"><label for="radio2"></label>
+	<br>
+	<input type="checkbox" name="checkx" id="check1"><label for="check1"></label>
+	<input type="checkbox" checked="checked" id="check2"><label for="check2"></label>
+</body>
+</html>

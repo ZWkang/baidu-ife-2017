@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>css radio and checkbox</title>
+	<style>
+	label{
+		display: inline-block;
+		cursor: pointer;
+		position: relative;
+		padding-left: 25px;
+		margin: 25px 0 0 15px;
+	}
+	input[type='radio'], input[type="checkbox"]{
+		display:none; 
+	}
+	label:before{
+		content: "";
+		width: 14px;
+		height: 14px;
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		background-color: white;
+		border: 1px solid #ccc;
+	}
+	input[type='radio'] + label:before{
+		 border-radius: 50%;
+	}
+	input[type='checkbox'] + label:before{
+		 border-radius: 10%;
+	}
+
+	input[type='radio']:checked+label:before{
+		content: "\2022";
+		color: red;
+		font-size: 28px;
+		text-align: center;
+		line-height: 16px;
+		border-color: red;
+	}
+
+	input[type='checkbox']:checked+label:before{
+		content: "\2714";
+		color: red;
+		font-size: 8px;
+		text-align: center;
+		line-height: 16px;
+		border-color: red;
+	}
+
+
+	</style>
+</head>
+<body>
+	
+	<input type="radio" id="radio1" name="radios"><label for="radio1" ></label>
+	<input type="radio" checked="checked" id="radio2" name="radios"><label for="radio2"></label>
+	<br>
+	<input type="checkbox" name="checkx" id="check1"><label for="check1"></label>
+	<input type="checkbox" checked="checked" id="check2"><label for="check2"></label>
+	
+</body>
+</html>
