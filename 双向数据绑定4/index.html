@@ -9,35 +9,56 @@
 		<p>名字：{{ user.name}}</p>
 		<p>年龄：{{ user.age }}</p>
 	</div>
+	<div>
+		<h2>
+			<code>
+				控制台F12->console
+			</code>
+		</h2>
+		<ul>
+			<li>var app = new Vue({</li>
+				<li>el: '#app',data: {</li>	
+				<li>user: {</li>		    
+				<li>name: 'youngwind',</li>
+				<li>age: 25</li>		      
+				<li>} }</li>		      
+			<li>});</li>
+		</ul>
+
+	</div>
 	<script>
-	function Vue(obj){
-		this.el = obj['el'];
-		this.datas = obj['data'];
-		this.init();
-	}
+	(function(){
 
-	Vue.prototype._bindData=function(tpldata,_data){
-		var match;
-		while((match = /{{(.*?)}}/g.exec(tpldata))!==null) {
-	           	if(match[1]){
-	           		
-	           		tpldata = tpldata.replace(match[0], new Function('return this.'+match[1]).apply(_data));
-	           	}else{
-	           		tpldata = tpldata.replace(match[0], '');
-	          		}    
-		}
-		match=null;
-		return tpldata;
-	}
 
-	Vue.prototype.init=function(){
-		var _element = document.querySelector(this.el)
-		_element.innerHTML=this._bindData(_element.innerHTML,this.datas);
-		_element=null;
-	}
-	setTimeout(function(){
+		function Vue(obj){
+			this.el = obj['el'];
+			this.datas = obj['data'];
+			this.init();
+		};
 
-	})
+		Vue.prototype._bindData=function(tpldata,_data){
+			var match;
+			while((match = /{{(.*?)}}/g.exec(tpldata))!==null) {
+		           	if(match[1]){
+
+		           		tpldata = tpldata.replace(match[0], new Function('return this.'+match[1]).apply(_data));
+		           	}else{
+		           		tpldata = tpldata.replace(match[0], '');
+		          		}    
+			}
+			match=null;
+			return tpldata;
+		};
+
+		Vue.prototype.init=function(){
+			var _element = document.querySelector(this.el)
+			_element.innerHTML=this._bindData(_element.innerHTML,this.datas);
+			_element=null;
+		};
+
+		window.Vue = Vue;
+
+	})();
 	</script>
 </body>
 </html>
