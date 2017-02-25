@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<p>名字：{{ user.name}}</p>
+		<p>年龄：{{ user.age }}</p>
+	</div>
+	<script>
+	function Vue(obj){
+		this.el = obj['el'];
+		this.datas = obj['data'];
+		this.init();
+	}
+
+	Vue.prototype._bindData=function(tpldata,_data){
+		var match;
+		while((match = /{{(.*?)}}/g.exec(tpldata))!==null) {
+	           	if(match[1]){
+	           		
+	           		tpldata = tpldata.replace(match[0], new Function('return this.'+match[1]).apply(_data));
+	           	}else{
+	           		tpldata = tpldata.replace(match[0], '');
+	          		}    
+		}
+		match=null;
+		return tpldata;
+	}
+
+	Vue.prototype.init=function(){
+		var _element = document.querySelector(this.el)
+		_element.innerHTML=this._bindData(_element.innerHTML,this.datas);
+		_element=null;
+	}
+	setTimeout(function(){
+
+	})
+	</script>
+</body>
+</html>
