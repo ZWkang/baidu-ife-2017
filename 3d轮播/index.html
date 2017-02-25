@@ -108,7 +108,7 @@
 	</div>
 	<script>
 	window.onload=function(){
-		var container = document.querySelector('.container');
+		var container = document.querySelector?document.querySelector('.container'):document.getElementsByClassName('container')[0];
 
 		container.addEventListener('mouseover',mmover,false);
 		container.addEventListener('mouseout',mmout,false);
@@ -122,11 +122,13 @@
 		}
 
 		function chooseclick(e){			
-			if(e.target.nodeName!='IMG')return;
+			var e = e ||window.event;//其实不用这一步  因为低版本ie也无法没有效果
+			var evt = e.target||e.srcElement;
+			if(evt.nodeName!='IMG')return;
 			container.style.transition='all 4s';
 
 			setTimeout(function(){
-				container.style.transform = 'rotateY('+(-60*Number(e.target.getAttribute('data-msg').replace('img','')))+'deg)';
+				container.style.transform = 'rotateY('+(-60*Number(evt.getAttribute('data-msg').replace('img','')))+'deg)';
 
 				},0
 			);
