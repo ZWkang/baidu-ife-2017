@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>index</title>
+	<style>
+	.main{
+		perspective: 500px;
+		-webkit-perspective: 500px;
+		position: relative;
+		width: 128px;
+		margin: 300px auto;
+	}
+	.container{
+		width: 128px;
+		height: 100px;
+		transform-style: preserve-3d;
+		-webkit-transform-style: preserve-3d;
+		transform:rotateY(0deg);
+		-webkit-transform:rotateY(0deg);
+	}
+
+	.container{
+		animation: myfirst 12s  infinite ;
+		-webkit-animation: myfirst 12s  infinite ;
+
+	}
+
+
+	@-webkit-keyframes myfirst 
+	{
+		0% {
+			transform:rotateY(0deg);
+			-webkit-transform:rotateY(0deg);
+		}
+		16.6% {
+			transform:rotateY(-60deg);
+			-webkit-transform:rotateY(-60deg);
+		}
+		33.2% {
+
+			-webkit-transform:rotateY(-120deg);
+		}
+		49.8% {
+			transform:rotateY(-180deg);
+			-webkit-transform:rotateY(-180deg);
+		}
+		66.4% {
+			transform:rotateY(-240deg);
+			-webkit-transform:rotateY(-240deg);
+		}
+		83% {
+			transform:rotateY(-300deg);
+			-webkit-transform:rotateY(-300deg);
+		}
+		100% {
+			transform:rotateY(-360deg);
+			-webkit-transform:rotateY(-360deg);
+		}
+	}
+
+
+	img{
+		position: absolute;
+		width: 128px;
+	}
+	img:nth-child(1) { 
+		transform: rotateY(   0deg ) translateZ(194px); 
+		-webkit-transform: rotateY(   0deg ) translateZ(194px); 
+	}
+	img:nth-child(2) { 
+		transform: rotateY(  60deg ) translateZ(194px); 
+		-webkit-transform: rotateY(  60deg ) translateZ(194px); 
+	}
+	img:nth-child(3) { 
+		transform: rotateY(  120deg ) translateZ(194px); 
+		-webkit-transform: rotateY(  120deg ) translateZ(194px); 
+	}
+	img:nth-child(4) { 
+		transform: rotateY( 180deg ) translateZ(194px); 
+		-webkit-transform: rotateY( 180deg ) translateZ(194px); 
+	}
+	img:nth-child(5) { 
+		transform: rotateY( 240deg ) translateZ(194px); 
+		-webkit-transform: rotateY( 240deg ) translateZ(194px); 
+	}
+	img:nth-child(6) { 
+		transform: rotateY( 300deg ) translateZ(194px); 
+		-webkit-transform: rotateY( 300deg ) translateZ(194px); 
+	} 
+	</style>
+</head>
+<body>
+	<h2>目前仅仅兼容了chrome</h2>
+	<h3>js做点击   css做动画滑动   难免会出现有抖动的效果。导致bug</h3>
+	<h3>在鼠标滑到container上时  等待点击动画结束  移除  才没有抖动</h3>
+	<h3>需要等滑块的“触发点”完成</h3>
+	<h3>图是热身赛的</h3>
+	<div class="main">
+		<div class="container">
+			<img src="migong.png" alt="" data-msg='img0'>
+			<img src="migong.png" alt="" data-msg='img1'>
+			<img src="migong.png" alt="" data-msg='img2'>
+			<img src="migong.png" alt="" data-msg='img3'>
+			<img src="migong.png" alt="" data-msg='img4'>
+			<img src="migong.png" alt="" data-msg='img5'>
+		</div>
+	</div>
+	<script>
+	window.onload=function(){
+		var container = document.querySelector('.container');
+
+		container.addEventListener('mouseover',mmover,false);
+		container.addEventListener('mouseout',mmout,false);
+		function mmout(){
+			container.style.animation='myfirst 6s  infinite ';
+			container.removeEventListener('click',chooseclick,false);
+		}
+		function mmover(){
+			container.style.animation='none';
+			container.addEventListener('click',chooseclick,false);
+		}
+
+		function chooseclick(e){			
+			if(e.target.nodeName!='IMG')return;
+			container.style.transition='all 4s';
+
+			setTimeout(function(){
+				container.style.transform = 'rotateY('+(-60*Number(e.target.getAttribute('data-msg').replace('img','')))+'deg)';
+
+				},0
+			);
+		}
+
+	}
+
+
+	</script>
+</body>
+</html>
