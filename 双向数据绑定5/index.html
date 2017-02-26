@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<p>名字：{{user.name}}</p>
+		<p>年龄：{{user.age}}</p>
+	</div>
+	<div>
+		<h2>
+			<code>
+				控制台F12->console
+			</code>
+		</h2>
+		<ul>
+			<li>输入以下代码</li>
+			<li>var app = new Vue({</li>
+			<li>el: '#app',data: {</li>	
+			<li>user: {</li>	
+			<li>name: '周文康',</li>	
+			<li>age: 22,</li>	
+			<li>school:'华软软件学院'</li>	
+			<li>} }</li>	
+			<li>});</li>
+		</ul>
+		<h4>然后输入app.$data.user.school='广大华软学院'</h4>
+		<h4>然后输入app.$data.user.name='zhouwenkang'</h4>
+		<h2>基本完成，内部的bug肯定还是有的吧</h2>
+	</div>
+	<script>
+	(function(){
+		//初始化
+		function _Vue(obj){
+			this.el = obj['el'];//dom节点
+			this.$data = obj['data'];//数据
+			this.$id=0;//id
+			this.$tags = [];//存放数据位置
+			this.$oldtpl=null;//存放初始化时候的模板
+			this.$bining_ins =null;//绑定的实例对象
+			this._start();//start开始初始化
+
+		};
+
+		_Vue.prototype._start=function(){
+			this.$oldtpl = document.querySelector(this.el).innerHTML;//初始化节点
+			this.init();//初始化渲染模板
+			this.$bining_ins = new Bining(this.$tags,this.$data,this.init.bind(this));//初始化绑定且绑定模板数据初始化视图的操作
+			//传入索引位置  数据引用   绑定this的初始化视图操作
+			this.$bining_ins.subs();
+			this.$bining_ins.op();
+		};
+		//解析模板
+		_Vue.prototype._bindData=function(tpldata,_data){
+			this.$tags=[];
+
+			var match;
+			while((match = /{{(.*?)}}/g.exec(tpldata))!==null) {
+		           	if(match[1]){
+
+		           		tpldata = tpldata.replace(match[0], new Function('return this.'+match[1]).apply(_data));
+		           		this.$tags.push(match[1]);
+		           	}else{
+		           		tpldata = tpldata.replace(match[0], '');
+		          		}    
+			}
+			match=null;
+			return tpldata;
+		};
+		//更新视图操作
+		_Vue.prototype.init=function(){
+			var _element = document.querySelector(this.el);
+			console.log('视图绘制');
+			_element.innerHTML=this._bindData(this.$oldtpl,this.$data);
+			_element=null;
+		};
+
+		
+		//这个是建立索引来索引对象位置绑定
+		function Bining(tags,data,callback){
+
+			this._tags = tags;//得到索引
+			this._sub=[];//存放处理后的索引
+			this._data = data;//得到引用绑定数据
+			this.$observer_ins=null;//存放绑定器的对象实例
+			this._callback=callback;//存放更新视图的函数
+		}
+		//处理索引
+		Bining.prototype.subs = function(){
+			for(var i =0;i<this._tags.length;i++){
+				this._sub.push(this._tags[i].split('.'));
+			}
+		}
+		Bining.prototype.op = function(){
+			//初始化绑定
+			this.$observer_ins = new Observer(this._data);
+			//此处进行绑定
+			for(var i =0;i<this._sub.length;i++){
+				var _cache = '';
+				//得到key的位置
+				_cache = this._sub[i].pop();
+				//得到this.data.user.name这种的this.data.user
+				_value = new Function('return this.'+this._sub[i].join('.')).apply(this._data);
+
+				(this.$observer_ins.convert.bind(_value))(_cache,_value[_cache],this._callback);
+				//对索引位置数据进行绑定操作
+				_cache=null;
+			}
+		}
+
+		function Observer(data){
+			this.data  = data;
+			this.watch(data);
+		}
+		//原型添加绑定方法
+
+		Observer.prototype.watch=function(obj){
+			var i,cache ;
+			for(i in obj){
+				if(obj.hasOwnProperty(i)){
+					cache = obj[i];
+					if(typeof cache ==='object'){
+						new Observer(cache);
+					}
+					this.convert(i,cache);
+				}
+			}
+			i=null;
+		}
+		//绑定
+		Observer.prototype.convert = function(key,val,callback){
+			if(!this.data){
+				b = this;
+			}else{
+				b= this.data;
+			}
+			//对this进行处理
+			Object.defineProperty(b,key,{
+			           enumerable: true,//可枚举
+			           configurable: true,//可修改配置
+				get:function(){
+					// console.log('你访问了'+key);
+					return val;
+				},
+				set:function(vals){
+					console.log('你设置了'+key+'新的值为'+vals);
+					if(key!==val){
+						val = vals;
+					}
+					if(typeof callback !='undefined'){
+						callback();
+					}
+					//如果有函数传入 则进行绑定操作
+				}
+			});
+		}
+
+		//美化以下构造函数
+		function Vue (obj){
+			return new _Vue(obj);
+		}
+		//导出全局
+		window.Vue = Vue;
+
+	})();
+
+	</script>
+</body>
+</html>
