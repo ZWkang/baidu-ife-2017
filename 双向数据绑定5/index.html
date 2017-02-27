@@ -3,32 +3,54 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
+	<style>
+	ul[class='code']{
+		margin: 0!important;
+		padding: 0!important;
+	}
+	ul[class='code']>li{
+		font-size: 20px;
+		list-style: none;
+		text-indent: 40px;
+	}
+	ul[class='code']>li:first-child,ul[class='code']>li:last-child{
+		text-indent: 0;
+	}
+	#app{
+		border:3px solid lightpink;
+	}
+
+	</style>
 </head>
 <body>
 	<div id="app">
-		<p>名字：{{user.name}}</p>
+		<p>名字：{{user.name.fullname}}</p>
 		<p>年龄：{{user.age}}</p>
 	</div>
 	<div>
+
 		<h2>
 			<code>
 				控制台F12->console
 			</code>
 		</h2>
-		<ul>
-			<li>输入以下代码</li>
+		<h4>输入以下代码</h4>
+		<ul class="code">
+			
 			<li>var app = new Vue({</li>
-			<li>el: '#app',data: {</li>	
-			<li>user: {</li>	
-			<li>name: '周文康',</li>	
-			<li>age: 22,</li>	
-			<li>school:'华软软件学院'</li>	
-			<li>} }</li>	
+				<li>el: '#app',data: {</li>	
+				<li>user: {</li>	
+				<li>name: {fullname:'周文康'},</li>	
+				<li>age: 22,</li>	
+				<li>school:'华软软件学院'</li>	
+				<li>} }</li>	
 			<li>});</li>
 		</ul>
 		<h4>然后输入app.$data.user.school='广大华软学院'</h4>
-		<h4>然后输入app.$data.user.name='zhouwenkang'</h4>
-		<h2>基本完成，内部的bug肯定还是有的吧</h2>
+		<h5>没有触发视图绘制函数</h5>
+		<h4>然后输入app.$data.user.name.fullname='zhouwenkang'</h4>
+		<h5>触发视图绘制函数</h5>
+		<h2>基本完成</h2>
 	</div>
 	<script>
 	(function(){
@@ -109,7 +131,7 @@
 				_cache=null;
 			}
 		}
-
+		//绑定处理器
 		function Observer(data){
 			this.data  = data;
 			this.watch(data);
@@ -136,7 +158,7 @@
 			}else{
 				b= this.data;
 			}
-			//对this进行处理
+			//对this进行处理 兼容二次绑定
 			Object.defineProperty(b,key,{
 			           enumerable: true,//可枚举
 			           configurable: true,//可修改配置
@@ -157,7 +179,7 @@
 			});
 		}
 
-		//美化以下构造函数
+		//美化构造函数
 		function Vue (obj){
 			return new _Vue(obj);
 		}
