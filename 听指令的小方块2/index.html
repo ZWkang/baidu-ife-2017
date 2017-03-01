@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		td{
+			width: 50px;
+			height: 50px;
+			border:1px solid #ccc;
+			text-align: center;
+			font-weight: bold;
+			box-sizing:border-box;
+			-moz-box-sizing:border-box; /* Firefox */
+			-webkit-box-sizing:border-box; /* Safari */
+		}
+		/*5 5 6 6*/
+		#main{
+			width: 750px;
+			margin: 0 auto;
+		}
+		.bg-red{
+			background-color: red;
+		}
+		.top-h{
+			border-top: 5px solid blue;
+		}
+		.left-h{
+			border-left: 5px solid blue;
+		}
+		.right-h{
+			border-right: 5px solid blue;
+		}
+		.but-h{
+			border-bottom: 5px solid blue;
+		}
+
+	</style>
+</head>
+<div id="main">
+<body>
+	<table>
+		<tr>
+			<td></td>
+			<td>1</td>
+			<td>2</td>
+			<td>3</td>
+			<td>4</td>
+			<td>5</td>
+			<td>6</td>
+			<td>7</td>
+			<td>8</td>
+			<td>9</td>
+			<td>10</td>
+		</tr>
+		<tr>
+			<td>1</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>2</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>3</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>4</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>5</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>6</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>7</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>8</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>9</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>10</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+
+	</table>
+	<input type="text" id="mes">
+	<input type="button" value="提交动作" id="uaction">
+</div>
+	<script>
+
+	var thing = {
+		MAX_SETTING:[0,10,0,10],
+
+		setting:[5,5,'top-h'],
+		lefthead:{'top-h':'left-h','left-h':'but-h','but-h':'right-h','right-h':'top-h'},
+		righthead:{'top-h':'right-h','right-h':'but-h','but-h':'left-h','left-h':'top-h'},
+		bachead:{'top-h':'but-h','but-h':'top-h','left-h':'right-h','right-h':'left-h'},
+		all_tr:function(){
+			return document.getElementsByTagName('tr');
+		},
+		OutPrint:function(){
+
+		},
+		DropPrint:function(){
+			var test = this.all_tr();
+			test[this.setting[1]].getElementsByTagName('td')[this.setting[0]].className='';
+		},
+		setweizhi:function(){
+			var test = this.all_tr();
+			test[this.setting[1]].getElementsByTagName('td')[this.setting[0]].className='bg-red '+this.setting[2];
+		},
+		ActionChoose:function(message){
+			switch(message){
+				case 'GO':
+					this.GoAction();
+					break;
+				case 'TUN LEF':
+					this.DropPrint();
+					this.EditSetting(2,this.lefthead[this.setting[2]]);
+					this.setweizhi();
+					break;
+				case 'TUN RIG':
+					this.DropPrint();
+					this.EditSetting(2,this.righthead[this.setting[2]]);
+					this.setweizhi();
+					break;
+				case 'TUN BAC':
+					this.DropPrint();
+					this.EditSetting(2,this.bachead[this.setting[2]]);
+					this.setweizhi();
+					break;
+				case 'TRA LEF':
+					this.DropPrint();
+					this.EditSetting(0,this.setting[0]-1);
+					this.setweizhi();
+					break;
+				case 'TRA TOP':
+					this.DropPrint();
+					this.EditSetting(1,this.setting[1]-1);
+					this.setweizhi();
+					break;
+				case 'TRA RIG':
+					this.DropPrint();
+					this.EditSetting(0,this.setting[0]+1);
+					this.setweizhi();
+					break;
+				case 'TRA BOT':
+					this.DropPrint();
+					this.EditSetting(1,this.setting[1]+1);
+					this.setweizhi();
+					break;
+				case 'MOV LEF':
+					this.DropPrint();
+					this.EditSetting(2,'left-h');
+					this.EditSetting(0,this.setting[0]-1);
+					this.setweizhi();
+					break;
+				case 'MOV TOP':
+					this.DropPrint();
+					this.EditSetting(2,'top-h');
+					this.EditSetting(1,this.setting[1]-1);
+					this.setweizhi();
+					break;
+				case 'MOV BOT':
+					this.DropPrint();
+					this.EditSetting(2,'but-h');
+					this.EditSetting(1,this.setting[1]+1);
+					this.setweizhi();
+					break;
+				case 'MOV RIG':
+					this.DropPrint();
+					this.EditSetting(2,'right-h');
+					this.EditSetting(0,this.setting[0]+1);
+					this.setweizhi();
+					break;
+
+			}
+		},
+		EditSetting:function(num,value){
+			switch(num){
+				case 0:
+					if(value>this.MAX_SETTING[0]&&value<=this.MAX_SETTING[1]){
+						this.setting[num]=value;
+					}else{
+						alert('已到达边界')
+						return;
+					}
+				case 1:
+				
+					if(value>this.MAX_SETTING[0]&&value<=this.MAX_SETTING[1]){
+						// alert(value);
+						this.setting[num]=value;
+					}else{
+						alert('已到达边界')
+						return;
+					}
+				default:
+					this.setting[num]=value;
+
+			}
+			
+		},
+		GoAction:function(){
+			switch(this.setting[2]){
+				case 'top-h':
+					this.DropPrint();
+					this.EditSetting(1,this.setting[1]-1);
+					this.setweizhi();
+					break;
+				case 'left-h':
+					this.DropPrint();
+					this.EditSetting(0,this.setting[0]-1);
+					this.setweizhi();
+					break;
+				case 'right-h':
+					this.DropPrint();
+					this.EditSetting(0,this.setting[0]+1);
+					this.setweizhi();
+					break;
+				case 'but-h':
+					this.DropPrint();
+					this.EditSetting(1,this.setting[1]+1);
+					this.setweizhi();
+					break;
+			}
+		}
+
+	}
+		window.onload=function(){
+			thing.setweizhi();
+			document.getElementById('uaction').onclick=function(){
+				thing.ActionChoose(document.getElementById('mes').value);
+			}
+		}
+
+	</script>
+</body>
+</html>
