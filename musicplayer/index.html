@@ -1,0 +1,622 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="./normal.css">
+	<style>
+	::-webkit-scrollbar  
+	{  
+	    width: 5px;  
+	    height: 5px;  
+	    background-color: white;  
+	}  
+	  
+	/*定义滚动条轨道 内阴影+圆角*/  
+	::-webkit-scrollbar-track  
+	{  
+	    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);  
+	    border-radius: 5px;  
+	    background-color: white;  
+	}  
+	  
+	/*定义滑块 内阴影+圆角*/  
+	::-webkit-scrollbar-thumb  
+	{  
+	    border-radius: 10px;  
+	    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);  
+	    background-color: white;  
+	}  
+	body{
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 14px;
+		
+	}
+	a{
+		color: black;
+		text-decoration: none;
+	}
+	i{
+		background-image: url(./sprit.png);
+		display: inline-block;
+		width: 16px;
+		height: 16px;
+		cursor: pointer;
+	}
+	.pre{
+		background-position: 112px 0 ;
+	}
+	.stop{
+		background-position: 96px 0 ;
+	}
+	.play{
+		background-position: 80px 0;
+	}
+	.next{
+		background-position: 64px 0;
+	}
+	.min-vol{
+		background-position: 48px 0;
+	}
+	.max-vol{
+		background-position: 32px 0;
+	}
+	.non-vol{
+		background-position: 16px 0 ;
+	}
+
+	.container{
+		width: 1000px;
+		height: 800px;
+		border: 1px solid black;
+		margin: 0 auto;
+		position: relative;
+		background-color:#D1EEEE;
+	}
+	.container-playlist{
+		width: 70%;
+		padding: 20px;
+		float: left;
+		box-sizing:border-box;
+	}
+	.container-playlist-head{
+		/*border-bottom: 1px solid white;*/
+	}
+	.container-playlist-head >p > a{
+		float: right;
+	}
+
+	.container-playlist{
+		width: 70%;
+		height: 70%;
+	}
+	.container-playlist-count{
+		width: 100%;
+		height: 100%;
+
+		overflow: auto;
+
+	}
+	.playlist-count-table{
+		width: 100%;
+		cellpadding:30;
+	}
+	.song{
+		border: 30px;
+		
+	}
+	.song-name,.song-singer,.song-del{
+		padding: 25px 10px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		border-top: 1px solid white;
+	}
+	.playlist-count-tbody > tr:last-child >td{
+		border-bottom: 1px solid white;
+	}
+	.song-singer{
+		text-align: center;
+	}
+	.song-del{
+		text-align: right;
+	}
+	table{
+	    -webkit-border-horizontal-spacing: 0px!important;
+	    -webkit-border-vertical-spacing: 0px!important;
+	}
+	.container-control{
+		position: absolute;
+		bottom: 60px;
+		width: 100%;
+	}
+	.container-control > div{
+		display: inline-block;
+	}
+	.mod1{
+		width: 70%;
+	}
+	.mod2{
+		width: 15%;
+		padding: 0 0 0 20px;
+		box-sizing:border-box;
+	}
+	.mod3{
+		width: 14%;
+		margin-bottom: 10px;
+		position: relative;
+	}
+	.mod2 > i {
+		display: block;
+		float: left;
+	}
+	.control-bar{
+		width: 100%;
+		text-align: center;
+
+		box-sizing:border-box;
+		position: absolute;
+	}
+	.vol-control-range{
+		width: 70%;
+		display: inline-block;
+		padding-bottom: 10px;
+		box-sizing:border-box;
+	}
+
+		input[type=range] {
+		    -webkit-appearance: none;
+		    /*width: 70vw;*/
+		    border-radius: 10px; /*这个属性设置使填充进度条时的图形为圆角*/
+			background-size: 0% 100%;
+			background:linear-gradient(to right, #059CFA, white  45%, white);		
+		}
+		input[type=range]::-webkit-slider-thumb {
+		    -webkit-appearance: none;
+		}    
+		input[type=range]::-webkit-slider-runnable-track {
+		    height: 5px;
+		    border-radius: 10px; /*将轨道设为圆角的*/
+		    /*box-shadow: 0 1px 1px #def3f8, inset 0 .125em .125em #0d1112;*/ /*轨道内置阴影效果*/
+		    /*background-color: red;*/
+		    /*border:1px solid #ccc;*/
+		}
+		input[type=range]:focus {
+		    outline: none;
+		}
+		input[type=range]::-webkit-slider-thumb {
+		    -webkit-appearance: none;
+		    height: 10px;
+		    width: 10px;
+		    margin-top: -3px; /*使滑块超出轨道部分的偏移量相等*/
+		    background: white; 
+		    border-radius: 50%; /*外观设置为圆形*/
+		    border: solid 1.2px rgba(205, 224, 230, 0.5); /*设置边框*/
+		    box-shadow: 1px 1px #3b4547; /*添加底部阴影*/
+		}
+
+		.mod1 > .song-names{
+			display: inline-block;
+			float: left;
+		}
+		.mod1 > .song-time{
+			display: inline-block;
+			float: right;
+		}
+		.music-control-range{
+			clear: both;
+			width: 100%;
+			border-right: 1px solid white;
+			border-left: 1px solid white;
+		}
+		.music-control-range >input{
+			width: 100%;
+		}
+
+
+		.container-singer{
+			clear: right;
+			width: 30%;
+			float: right;
+		}
+		.container-singer-infobox{
+			width: 50%;
+			margin: 0 auto;
+		}
+		.singer-photo{
+			width: 100%;
+			height: 200px;
+			margin-top:50px;
+			margin-bottom: 50px;
+		}
+		.singer-photo > a  > img{
+			width: 100%;
+			height: 100%;
+			
+			-webkit-transition:all 6s;
+			-moz-transition:all 6s;
+			-o-transition:all 6s;
+			transition:all 6s;
+		}
+		.singer-photo > a  > img:hover{
+			transform:rotateY(360deg);
+			-webkit-transform:rotateY(360deg);
+			-moz-transform:rotateY(360deg);
+			-o-transform:rotateY(360deg);
+			transform:rotateY(360deg);
+		}
+		.tag,.singer-name{
+			width: 100%;
+			text-align: center;
+		}
+		.eee{
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+		.song-names{
+			font-size: 24px;
+			padding-left: 10px;
+		}
+		.song-name >a:hover{
+			color: red;
+		}
+		.song-time{
+			font-size: 18px;
+			padding-right: 10px;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="container-playlist">
+			<audio src="./yy.mp3" id="song_play" preload></audio>
+			<div class="container-playlist-head">
+				<p><span>正在播放</span></p>
+			</div>
+			<div class="container-playlist-count">
+				<table class="playlist-count-table">
+					<tbody class="playlist-count-tbody">
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="container-singer">
+			<div class="container-singer-infobox">
+				<div class="singer-photo">
+					<a href="">
+						<img src="test.jpg" alt="cute jpg">
+					</a>
+				</div>
+				<div class="tag eee"><h2><a href="javascript:void(0)">我喜欢的歌单</a></h2></div>
+				<div class="singer-name eee"><h2><a href="javascript:alert('myqq:907747874')">周文康</a></h2></div>
+
+			</div>
+
+		</div>
+		<div class="container-control">
+
+		</div>
+	</div>
+
+	<script>
+		/*
+		1/需要绑定的播放条与歌曲时间
+		2/需要绑定拖动的时间与歌曲时间
+		3/需要绑定音量
+		4/需要绑定列表的歌曲与切换歌曲
+		5/需要实现下一首或者上一首
+		6/需要实现快进
+		7/暂停与开始
+		(音量的大小切换icon)
+		
+		*/
+	(function(){
+
+		var e = {
+				'head':'.container-playlist-head',
+				'tbody':'.playlist-count-tbody',
+				'control':'.container-control',
+				'mod1':'.mod1',
+				'mod2':'.mod2',
+				'mod3':'.mod3',
+				'song':'#song_play',
+				'playbar':'#playsongbar',
+				'volumebar':'#volumebar',
+				'songname':'.song-names',
+				'songtime':'.song-time',
+				'play':'.play'
+		}
+
+		var jsondata = '{"state":"success","code":"200","data":{"result":[{"name":"突然的自我","positionid":"1","singer":"伍佰","url":"./turan.mp3","duration":"216"},{"name":"雨天","singer":"孙燕姿","positionid":"2","url":"./yutian.mp3","duration":"241.5"},{"name":"天才白痴梦","positionid":"3","singer":"许冠杰","url":"./tiancai.mp3","duration":"152"},{"name":"我不难过","positionid":"4","singer":"孙燕姿","url":"./turan.mp3","duration":"322"}]}}';
+		window.onload=function(){
+			
+			function Main(obj){
+				this.$data = obj;
+				this.result=null;
+			}
+			Main.prototype.init=function(){
+				if(this.$data['code']!=='200'||this.$data['state']!=='success') return;
+				this.result= this.$data['data']['result'];
+				return this;
+			}
+			
+			//动作对象  
+			//传入节点对象
+			//传入数据对象
+			
+			function Action(elobj,dataobj){
+				this._elobj = null;//节点存放
+				this._action_obj=null;//动作对象
+				this._position = null;//位置存储
+				this._duration = null;//长度存储
+				this.init(elobj,dataobj);//初始化
+
+			}
+			//初始化
+			Action.prototype.init=function(elobj,dataobj){
+				// if(typeof elobj=='undefined'||typeof obj =='undefined'||Object.prototype.toString.call(elobj)!='[object Object]'||Object.prototype.toString.call(dataobj)!='[object Object]')return ;
+				//检测数据
+				console.log('初始化数据');
+				//初始化赋值
+				this._action_obj=dataobj['result'];
+				this._position=1;
+				//获取节点绑定位置
+				this._elobj = {
+					'head':document.querySelector(elobj['head']),
+					'tbody':document.querySelector(elobj['tbody']),
+					'control':document.querySelector(elobj['control']),
+
+					'song':document.querySelector(elobj['song'])
+
+				};
+
+				console.log('body加载结束')
+				//初始化播放列表
+				this.init_play_list(this._action_obj,this._elobj['tbody']);
+				//初始化播放条
+				this.init_play_bar(this._action_obj[this._position-1],this._elobj['control']);
+				//绑定动作节点
+				var obj = {
+					'mod1':document.querySelector(elobj['mod1']),
+					'mod2':document.querySelector(elobj['mod2']),
+					'mod3':document.querySelector(elobj['mod3']),
+					'volumebar':document.querySelector(elobj['volumebar']),
+					'songname':document.querySelector(elobj['songname']),
+					'songtime':document.querySelector(elobj['songtime']),
+					'playbar':document.querySelector(elobj['playbar']),
+					'play':document.querySelector(elobj['play'])
+				}
+
+				//合并两个节点对象
+				this._elobj = Object.assign(this._elobj,obj);
+				// console.log(this._elobj);
+
+				//
+				//初始化播放器
+				this.initplay(this._position-1);
+
+
+				//初始化播放列表时间
+				this.play_list_event(this._elobj['tbody'],this._elobj['song'],this._action_obj);
+
+				console.log('body加载结束')
+				// console.log(this._elobj['volumebar'],this._elobj['song']);
+
+				//初始化音量条事件
+				this.mod2_event(this._elobj['volumebar'],this._elobj['song']);
+
+				console.log('音量条加载结束');
+				//初始化下一首 上一首 暂停 开始 事件
+				this.mod3_event(this._elobj['mod3']);
+				console.log('初始化节点');
+				//添加歌曲绑定播放条时间
+				this._elobj['song'].addEventListener('timeupdate',(this.changeplaybar).bind(this));
+				//添加绑定快进事件
+				this.mod1_event(this._elobj['playbar']);
+				//绑定播放结束时间
+				this._elobj['song'].addEventListener('ended',(this._next).bind(this));
+				// this._removeAll();
+			};
+			Action.prototype.initplay=function(_position){
+				//如果传入的是undefined或者此时的动作对象没有了
+				//初始化播放器
+				if(typeof _position =='undefined'||this._action_obj.length==1){
+					// this._elobj['song']
+					this._pause();
+					this._elobj['song'].src=null;
+					this._elobj['playbar'].value=0;
+					this._elobj['playbar'].style.background='linear-gradient(to right, #059CFA, white 0%, white)';
+					this._elobj['songname'].innerHTML='-1';
+					this._elobj['songtime'].innerHTML='-1';
+					return;
+				}
+				// console.log(this._action_obj);
+				//初始化歌曲链接
+				this._elobj['song'].src = this._action_obj[_position]['url'];
+				//初始化歌曲名字
+				this._elobj['songname'].innerHTML=this._action_obj[_position]['name'];
+				//初始化播放
+				this._elobj['song'].addEventListener('canplay',this._play.bind(this));
+
+			};
+			Action.prototype._play=function(){
+				this._duration = this._elobj['song'].duration;
+				this._elobj['play'].className='stop';
+				this._elobj['song'].play();
+				this._elobj['playbar'].max = this._elobj['song'].duration.toFixed(0);
+			};
+			//
+			Action.prototype._pause=function(){
+				this._elobj['song'].pause();
+				this._elobj['play'].className='play'
+			};
+			//下一首
+			Action.prototype._next=function(){
+				if(this._position==this._action_obj.length){
+					console.log('播放列表结束');
+					this.initplay();
+					return;
+				}else{
+					this._position++;
+					this.initplay(this._position-1);
+				}
+			};
+			//上一首
+			Action.prototype._pre=function(){
+				if(this._position==1){
+					console.log('当前即第一首');
+				}else{
+					this._position--;
+					this.initplay(this._position-1);
+				}
+			};
+			//播放时间绑定播放条
+			Action.prototype.changeplaybar=function(){
+				// _song = document.querySelector('#playsongbar');
+				this._elobj['songtime'].innerHTML=this._elobj['song'].currentTime.toFixed(0)+'s';
+				this._elobj['playbar'].value=this._elobj['song'].currentTime.toFixed(0);
+				this._elobj['playbar'].style.background='linear-gradient(to right, #059CFA, white ' + ((this._elobj['song'].currentTime/this._elobj['song'].duration.toFixed(0))*100).toFixed(0) + '%, white)';
+			};
+			//删除歌曲
+			Action.prototype._delete = function(_position){
+				if(_position==this._position)return;
+				this._action_obj.splice(_position-1,1);
+			};
+			//初始化播放条生成模板
+			Action.prototype.init_play_bar=function(obj,el){
+				var _cache = '<div class="mod1">\n'
+							+'<div class="song-names">\n'
+								+obj['name']
+							+'</div>\n'
+							+'<div class="song-time"></div>\n'
+							+'<div class="music-control-range">\n'
+								+'<input type="range" min="0" max="'+Number(obj['duration']).toFixed(0)+'" value="0" class="playbar" data-role="none" id="playsongbar">\n'
+							+'</div>\n'
+						+'</div>\n'+
+							'<div class="mod2">'+
+								'<i class="min-vol"></i>'+
+								'<div class="vol-control-range">'+
+									'<input type="range" min="0" max="100" value="40" class="volumes" data-role="none" id="volumebar">'+ 
+								'</div>'+
+							'</div>'+
+							'<div class="mod3">'+
+								'<div class="control-bar">'+
+									'<i class="pre"></i>'+
+									'<i class="play"></i>'+
+									'<i class="next"></i>'+
+								'</div>'+
+							'</div>';
+					// return _cache;
+					el.innerHTML = _cache;
+			}
+			//初始化播放列表  生成模板
+			Action.prototype.init_play_list=function(arr,el){
+
+				var _cache = '';
+				arr.forEach(function(value,index){
+					_cache+=	'<tr class="song">\n'
+							+'<td class="song-name"><a href="###" datamsg="'+value['positionid']+'">'+value['name']+'</a></td>\n'
+							+'<td class="song-singer">'+value['singer']+'</td>\n'
+							+'<td class="song-del"><a href="###" direct-delete="'+value['positionid']+'">×</a></td>\n'
+							+'</tr>\n';
+				})
+				// return _cache;
+
+				el.innerHTML = _cache;
+				_cache=null;
+				return;
+			}
+			//控制事件
+			Action.prototype.mod3_event=function(el){
+				el.addEventListener('click',(function(e){
+					var e = e||window.event;
+					// console.log(e);
+					switch(e.target.className){
+						case 'stop':
+							this._pause();
+							e.target.className='play';
+							break;
+						case 'play':
+							e.target.className='stop';
+							this._play();
+							break;
+						case 'pre':
+							this._pre();
+							break;
+						case 'next':	
+							this._next();
+							break;
+
+					}
+				}).bind(this));
+			};
+			//音量条事件
+			Action.prototype.mod2_event=function(el,obj){
+				el.addEventListener('change',function(e){
+					var e = e||window.event;
+					var eltag = e.srcElement||e.target;
+					if(el.value>70){
+						eltag.parentNode.parentNode.firstChild.className = 'max-vol';
+					}else if(el.value==0){
+						eltag.parentNode.parentNode.firstChild.className = 'non-vol';
+					}else{
+						eltag.parentNode.parentNode.firstChild.className = 'min-vol';
+					}
+
+					obj.volume = (el.value/100).toFixed(1);
+					el.style.background='linear-gradient(to right, #059CFA, white ' + el.value + '%, white)';
+				});
+			};
+			//播放条事件
+			Action.prototype.mod1_event = function(el){
+				el.addEventListener('change',(function(e){
+					this._elobj['song'].removeEventListener('timeupdate',(this.changeplaybar).bind(this));
+					this._elobj['song'].currentTime=this._elobj['playbar'].value;
+					this._elobj['playbar'].style.background='linear-gradient(to right, #059CFA, white ' + ((this._elobj['song'].currentTime/this._elobj['song'].duration.toFixed(0))*100).toFixed(0) + '%, white)';
+					this._elobj['song'].addEventListener('timeupdate',(this.changeplaybar).bind(this));
+				}).bind(this));
+
+			};
+			Action.prototype.play_list_event=function(el,obj,data){
+				// var play_count = document.querySelector('.playlist-count-tbody');
+				el.addEventListener('click',(function(e){
+					var e = e||window.event;
+					var eltag = e.srcElement||e.target;
+					if(eltag.getAttribute('datamsg')){
+						obj.src =data[Number(eltag.getAttribute('datamsg'))-1]['url'];
+						this.initplay(eltag.getAttribute('datamsg')-1);
+					}
+					if(eltag.getAttribute('direct-delete')){
+						if(Number(eltag.getAttribute('direct-delete'))==this._position){
+							alert('请不要删除当前播放歌曲');
+							return;
+						}else{
+							eltag.parentNode.parentNode.parentNode.removeChild(eltag.parentNode.parentNode);
+							this._delete(Number(eltag.getAttribute('direct-delete')));
+						}
+					}
+				}).bind(this));
+			};
+			// Action.prototype._removeAll=function(){
+			// 	this._elobj['head'].addEventListener('click',(function(e){
+
+			// 		if(e.target.nodeName=='A'){
+			// 			console.log(e);
+			// 			this._action_obj=[];
+			// 			this.init();
+			// 		}
+			// 	}).bind(this));
+			var c = new Action(e,(new Main(JSON.parse(jsondata))).init());
+			//初始化 传入参数  c做调试
+			window.c=c;
+		};
+
+
+			
+	})();
+
+
+	</script>
+</body>
+</html>
